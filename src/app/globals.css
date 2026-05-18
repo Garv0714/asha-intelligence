@@ -1,0 +1,200 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 40 20% 98%;
+    --foreground: 210 18% 20%;
+    --card: 0 0% 100%;
+    --card-foreground: 210 18% 20%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 210 18% 20%;
+    --primary: 170 56% 38%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 40 14% 93%;
+    --secondary-foreground: 210 18% 25%;
+    --muted: 40 14% 94%;
+    --muted-foreground: 210 10% 50%;
+    --accent: 170 50% 95%;
+    --accent-foreground: 170 56% 30%;
+    --destructive: 6 60% 55%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 40 14% 90%;
+    --input: 40 14% 90%;
+    --ring: 170 56% 38%;
+    --radius: 0.75rem;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+  }
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+@layer components {
+  /* Warm card effect — light, soft, warm */
+  .warm-card {
+    @apply relative overflow-hidden rounded-2xl bg-white border border-asha-glass-border;
+    box-shadow: 0 2px 8px rgba(44, 62, 80, 0.06), 0 1px 3px rgba(44, 62, 80, 0.04);
+  }
+
+  .warm-card:hover {
+    box-shadow: 0 8px 25px rgba(44, 62, 80, 0.1), 0 4px 10px rgba(44, 62, 80, 0.06);
+    border-color: rgba(42, 157, 143, 0.15);
+  }
+
+  /* Subtle glass effect for overlays */
+  .glass-soft {
+    @apply relative overflow-hidden rounded-2xl;
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(44, 62, 80, 0.06);
+  }
+
+  /* Keep glass-card alias for components still using it */
+  .glass-card {
+    @apply warm-card;
+  }
+
+  /* Gradient text — warm teal to emerald */
+  .gradient-text {
+    @apply bg-clip-text text-transparent;
+    background-image: linear-gradient(135deg, #2A9D8F 0%, #4CAF7D 100%);
+  }
+
+  .gradient-text-warm {
+    @apply bg-clip-text text-transparent;
+    background-image: linear-gradient(135deg, #E8846B 0%, #E4A853 100%);
+  }
+
+  .gradient-text-hope {
+    @apply bg-clip-text text-transparent;
+    background-image: linear-gradient(135deg, #2A9D8F 0%, #5BA4CF 50%, #8B7EC8 100%);
+  }
+
+  /* Stat card — warm elevated cards */
+  .stat-card {
+    @apply warm-card p-6 transition-all duration-300;
+  }
+
+  .stat-card:hover {
+    transform: translateY(-2px);
+  }
+
+  /* Risk level indicators — warm palette */
+  .risk-low {
+    @apply text-risk-low bg-risk-low/10 border-risk-low/20;
+  }
+
+  .risk-moderate {
+    @apply text-risk-moderate bg-risk-moderate/10 border-risk-moderate/20;
+  }
+
+  .risk-high {
+    @apply text-risk-high bg-risk-high/10 border-risk-high/20;
+  }
+
+  .risk-critical {
+    @apply text-risk-critical bg-risk-critical/10 border-risk-critical/20;
+  }
+
+  /* Scrollbar styling — warm minimal */
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-track {
+    background: rgba(44, 62, 80, 0.02);
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    background: rgba(44, 62, 80, 0.1);
+    border-radius: 3px;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: rgba(44, 62, 80, 0.18);
+  }
+
+  /* Shimmer loading effect — warm */
+  .shimmer {
+    background: linear-gradient(
+      90deg,
+      rgba(42, 157, 143, 0.04) 0%,
+      rgba(42, 157, 143, 0.08) 50%,
+      rgba(42, 157, 143, 0.04) 100%
+    );
+    background-size: 200% 100%;
+    animation: shimmer 1.5s ease-in-out infinite;
+  }
+
+  /* Presentation mode */
+  .presentation-mode .warm-card,
+  .presentation-mode .glass-card {
+    animation: scale-in 0.5s ease-out forwards;
+  }
+
+  /* Gentle section divider */
+  .section-divider {
+    @apply h-px w-full;
+    background: linear-gradient(90deg, transparent, rgba(42, 157, 143, 0.15), transparent);
+  }
+}
+
+/* Map overrides — warm, light theme */
+.leaflet-container {
+  background: #FAFAF7 !important;
+  border-radius: 1rem;
+}
+
+.leaflet-tile-pane {
+  filter: brightness(1.05) contrast(0.95) saturate(0.85);
+}
+
+.leaflet-control-zoom a {
+  background: rgba(255, 255, 255, 0.95) !important;
+  color: #5D6D7E !important;
+  border-color: rgba(44, 62, 80, 0.1) !important;
+}
+
+.leaflet-control-zoom a:hover {
+  background: rgba(255, 255, 255, 1) !important;
+  color: #2A9D8F !important;
+}
+
+.leaflet-popup-content-wrapper {
+  background: rgba(255, 255, 255, 0.98) !important;
+  color: #2C3E50 !important;
+  border-radius: 1rem !important;
+  border: 1px solid rgba(44, 62, 80, 0.08) !important;
+  box-shadow: 0 8px 25px rgba(44, 62, 80, 0.12) !important;
+}
+
+.leaflet-popup-tip {
+  background: rgba(255, 255, 255, 0.98) !important;
+}
+
+/* Animations outside layers */
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+/* Staggered animation delays */
+.stagger-1 { animation-delay: 0.1s; }
+.stagger-2 { animation-delay: 0.2s; }
+.stagger-3 { animation-delay: 0.3s; }
+.stagger-4 { animation-delay: 0.4s; }
+.stagger-5 { animation-delay: 0.5s; }
+.stagger-6 { animation-delay: 0.6s; }
