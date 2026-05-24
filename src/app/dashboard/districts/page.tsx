@@ -1,18 +1,26 @@
 "use client";
 
+import { useState } from "react";
 import { motion } from "framer-motion";
 import { districts } from "@/data/synthetic/districts";
 import { StatusBadge, TrendIndicator } from "@/components/shared/status-badge";
 import { AnimatedCounter } from "@/components/shared/animated-counter";
+import { DistrictDetailDrawer } from "@/components/dashboard/district-detail-drawer";
 import { getRiskColor } from "@/lib/utils";
 import Link from "next/link";
-import { BarChart3, Users, School, Utensils, ArrowRight } from "lucide-react";
+import { BarChart3, Users, School, Utensils, ArrowRight, Eye } from "lucide-react";
 
 export default function DistrictsPage() {
+  const [drawerDistrictId, setDrawerDistrictId] = useState<string | null>(null);
   const sorted = [...districts].sort((a, b) => b.riskScore - a.riskScore);
 
   return (
     <div className="space-y-6 max-w-[1600px] mx-auto">
+      <DistrictDetailDrawer
+        isOpen={drawerDistrictId !== null}
+        onClose={() => setDrawerDistrictId(null)}
+        districtId={drawerDistrictId}
+      />
       <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }}>
         <h1 className="text-2xl font-bold text-asha-ink flex items-center gap-2">
           <BarChart3 className="w-6 h-6 text-asha-teal" />
@@ -122,7 +130,15 @@ export default function DistrictsPage() {
 
                 <div className="flex items-center justify-between mt-3 pt-3 border-t border-asha-glass-border">
                   <TrendIndicator trend={district.riskTrend} />
-                  <span className="text-[11px] text-asha-ink-lighter">{district.activeInterventions} active interventions</span>
+                  <div className="flex items-center gap-2">
+                    <button
+                      onClick={(e) => { e.preventDefault(); e.stopPropagation(); setDrawerDistrictId(district.id); }}
+                      className="flex items-center gap-1 px-2 py-1 text-[10px] font-medium rounded-lg bg-asha-teal-muted/60 text-asha-teal-dark hover:bg-asha-teal-muted transition-colors"
+                    >
+                      <Eye className="w-3 h-3" /> Preview
+                    </button>
+                    <span className="text-[11px] text-asha-ink-lighter">{district.activeInterventions} interventions</span>
+                  </div>
                 </div>
               </div>
             </Link>

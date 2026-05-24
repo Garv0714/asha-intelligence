@@ -1,11 +1,14 @@
 "use client";
 
+import { useState } from "react";
 import dynamic from "next/dynamic";
 import { motion } from "framer-motion";
 import { StatsGrid } from "@/components/dashboard/stats-grid";
 import { RiskGauge } from "@/components/dashboard/risk-gauge";
 import { AIInsightCard } from "@/components/dashboard/ai-insight-card";
-import { aiInsights, aiRecommendations, activityFeed, predictiveTimeline } from "@/data/synthetic/analytics";
+import { LiveActivityFeed } from "@/components/dashboard/live-activity-feed";
+import { DistrictDetailDrawer } from "@/components/dashboard/district-detail-drawer";
+import { aiInsights, aiRecommendations, predictiveTimeline } from "@/data/synthetic/analytics";
 import { Brain, Heart, AlertTriangle, Zap, TrendingUp, Clock, Shield } from "lucide-react";
 import Link from "next/link";
 
@@ -30,8 +33,16 @@ const HungerHeatmap = dynamic(
 );
 
 export default function DashboardPage() {
+  const [drawerDistrictId, setDrawerDistrictId] = useState<string | null>(null);
+
   return (
     <div className="space-y-6 max-w-[1600px] mx-auto">
+      {/* District Detail Drawer */}
+      <DistrictDetailDrawer
+        isOpen={drawerDistrictId !== null}
+        onClose={() => setDrawerDistrictId(null)}
+        districtId={drawerDistrictId}
+      />
       {/* Page header */}
       <motion.div
         initial={{ opacity: 0, y: -10 }}
@@ -165,30 +176,8 @@ export default function DashboardPage() {
 
       {/* Activity Feed + AI Insights + Risk Distribution */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Activity Feed (V2) */}
-        <div className="warm-card p-5">
-          <div className="flex items-center gap-2 mb-4">
-            <Clock className="w-4 h-4 text-asha-sky" />
-            <h3 className="text-sm font-semibold text-asha-ink">Activity Feed</h3>
-          </div>
-          <div className="space-y-3 max-h-[400px] overflow-y-auto custom-scrollbar pr-1">
-            {activityFeed.map((item, i) => (
-              <motion.div
-                key={item.id}
-                initial={{ opacity: 0, x: -10 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 0.5 + i * 0.05 }}
-                className="flex items-start gap-3 py-2"
-              >
-                <span className="text-base mt-0.5">{item.icon}</span>
-                <div className="flex-1 min-w-0">
-                  <p className="text-xs text-asha-ink leading-relaxed">{item.message}</p>
-                  <p className="text-[10px] text-asha-ink-faint mt-0.5">{item.time}</p>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </div>
+        {/* Live Activity Feed (V2) */}
+        <LiveActivityFeed />
 
         {/* AI Insights */}
         <div>
